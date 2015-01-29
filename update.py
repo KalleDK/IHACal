@@ -32,7 +32,10 @@ for week in range(1, last_week+1):
 	print '{}'.format(week),
 	weekday = 0
 	event_state = 0
-	f = urllib.urlopen(url.format(course, week))
+	try: 
+		f = urllib.urlopen(url.format(course, week))
+	except urllib.URLError, e:
+		quit()
 	for line in f:
 		if re.search("C0C0C0'>(.*)<", line):
 			weekday = weekday + 1
