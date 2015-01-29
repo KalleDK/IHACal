@@ -20,13 +20,18 @@ install:
   - pip install pytz
   - git config --global user.email "${GIT_MAIL}"
   - git config --global user.name "${GIT_USER}"
-  - git remote set-url origin https://${GIT_TOKEN}@github.com/KalleDK/IHACal > /dev/null 2>&1
+  - mkdir ${TRAVIS_BUILD_DIR}/master
+  - cd ${TRAVIS_BUILD_DIR}/master
+  - git clone https://${GIT_TOKEN}@github.com/KalleDK/IHACal > /dev/null 2>&1
 
 script:
+  - cd ${TRAVIS_BUILD_DIR}/master
   - ./update.sh courses.lst $ICAL_USER $ICAL_PASS
 
 after_success:
+  - cd ${TRAVIS_BUILD_DIR}/master
   - cat Readme.md
+  - git pull
   - git add -f .
   - git commit -m "Travis CI [ci skip]"
   - git push -fq origin  master
