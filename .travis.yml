@@ -20,4 +20,12 @@ install:
   - pip install pytz
 
 script:
-  - echo $GIT_USER
+  - ./update.sh courses.lst $ICAL_USER $ICAL_PASS
+
+after_success:
+  - git config --global user.email "${GIT_MAIL}"
+  - git config --global user.name "${GIT_USER}"
+  - git add -f .
+  - git commit -m "Travis CI [ci skip]"
+  - git remote add gh https://$GIT_TOKEN@github.com/KalleDK/IHACal > /dev/null 2>&1
+  - git push gh master
