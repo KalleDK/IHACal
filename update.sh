@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 echo "# IHA Calendars" > Readme.md
+echo "[![Build Status](https://travis-ci.org/KalleDK/IHACal.svg?branch=master)](https://travis-ci.org/KalleDK/IHACal)" >> Readme.md
+echo "" >> Readme.md
 echo "Course | Feed | Html" >> Readme.md
 echo "-------|------|-----" >> Readme.md
 while read line
