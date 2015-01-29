@@ -76,6 +76,7 @@ for week in range(1, last_week+1):
 		match = re.search("<td align='right' bgcolor='#FFFFFF'><font color='#000080'>(.*)</font>", line)
 		if (event_state == 5 and match):
 			event_state = 6
+			event.add('description', match.group(1))
 			#print match.group(1)
 
 		if re.search("END OBJECT-CELL", line):
