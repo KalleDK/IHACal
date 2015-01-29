@@ -38,7 +38,7 @@ for week in range(1, last_week+1):
 			print "New Week"
 			print weekday
 
-		if re.search("START OBJECT-CELL", line):
+		if (event_state == 0 and re.search("START OBJECT-CELL", line)):
 			event_state = 1
 			print "New Event"
 			event = Event()
@@ -67,7 +67,7 @@ for week in range(1, last_week+1):
 		if (event_state == 4 and match):
 			event_state = 5
 			print match.group(1)
-			event.add('location', match.group(1))
+			#event.add('location', match.group(1))
 
 		match = re.search("<td align='right' bgcolor='#FFFFFF'><font color='#000080'>(.*)</font>", line)
 		if (event_state == 5 and match):
