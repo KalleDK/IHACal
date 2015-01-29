@@ -26,7 +26,7 @@ install:
 
 script:
   - cd ${TRAVIS_BUILD_DIR}/master
-  - ./update.sh courses.lst $ICAL_USER $ICAL_PASS
+  - '[ "${TRAVIS_PULL_REQUEST}" = "false" ] && ./update.sh courses.lst $ICAL_USER $ICAL_PASS || false'
 
 after_success:
   - cd ${TRAVIS_BUILD_DIR}/master
