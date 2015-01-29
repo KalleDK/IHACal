@@ -33,5 +33,6 @@ after_success:
   - cat Readme.md
   - git add -f .
   - git commit -m "Travis CI [ci skip]"
+  - git remote set-url origin https://${GH_TOKEN}@github.com/KalleDK/IHACal
   - git remote -v
   - git push -fq origin  master
