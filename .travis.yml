@@ -33,4 +33,5 @@ after_success:
   - cat Readme.md
   - git add -f .
   - git commit -m "Travis CI [ci skip]"
+  - git remote -v
   - git push -fq origin  master
