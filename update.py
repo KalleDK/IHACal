@@ -79,6 +79,7 @@ for week in range(1, last_week+1):
 			#print "End Event"
 			event_state = 0
 			cal.add_component(event)
+	f.close()
 
 f = open('calendars/{}.ics'.format(course),'wb')
 f.write(cal.to_ical())

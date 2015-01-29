@@ -30,6 +30,7 @@ script:
 
 after_success:
   - cd ${TRAVIS_BUILD_DIR}/html
+  - cat Readme.md
   - git add -f .
   - git commit -m "Travis CI [ci skip]"
-  - git push -fq oriin  master
+  - git push -fq origin  master
