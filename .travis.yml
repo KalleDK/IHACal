@@ -18,14 +18,18 @@ language: python
 install:
   - pip install icalendar
   - pip install pytz
+  - mkdir ${TRAVIS_BUILD_DIR}/html
+  - cd ${TRAVIS_BUILD_DIR}/html
+  - git config --global user.email "${GIT_MAIL}"
+  - git config --global user.name "${GIT_USER}"
+  - git clone https://${GH_TOKEN}@github.com/KalleDK/IHACal . > /dev/null 2>&1
 
 script:
+  - cd ${TRAVIS_BUILD_DIR}/html
   - ./update.sh courses.lst $ICAL_USER $ICAL_PASS
 
 after_success:
-  - git config --global user.email "${GIT_MAIL}"
-  - git config --global user.name "${GIT_USER}"
+  - cd ${TRAVIS_BUILD_DIR}/html
   - git add -f .
   - git commit -m "Travis CI [ci skip]"
-  - git remote add gh https://$GIT_TOKEN@github.com/KalleDK/IHACal > /dev/null 2>&1
-  - git push gh master
+  - git push -fq oriin  master

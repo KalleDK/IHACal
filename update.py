@@ -27,8 +27,9 @@ def create_time(year, week, weekday, hour, minute):
 	time_str = "{} {} {} {} {}".format(year, week, weekday, hour, minute)
 	return datetime.fromtimestamp(mktime(time.strptime(time_str, '%Y %W %w %H %M'))).replace(tzinfo=pytz.timezone("Europe/Copenhagen"))
 
-
+print '{}'.format(course)
 for week in range(1, last_week+1):
+	print '{}'.format(week),
 	weekday = 0
 	event_state = 0
 	f = urllib.urlopen(url.format(course, week))
