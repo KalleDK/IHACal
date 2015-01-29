@@ -22,7 +22,7 @@ install:
   - git config --global user.name "${GIT_USER}"
   - mkdir ${TRAVIS_BUILD_DIR}/master
   - cd ${TRAVIS_BUILD_DIR}/master
-  - git clone https://${GIT_TOKEN}@github.com/KalleDK/IHACal > /dev/null 2>&1
+  - git clone https://${GIT_TOKEN}@github.com/KalleDK/IHACal . > /dev/null 2>&1
 
 script:
   - cd ${TRAVIS_BUILD_DIR}/master
