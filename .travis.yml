@@ -22,7 +22,7 @@ install:
   - cd ${TRAVIS_BUILD_DIR}/html
   - git config --global user.email "${GIT_MAIL}"
   - git config --global user.name "${GIT_USER}"
-  - git clone https://${GH_TOKEN}@github.com/KalleDK/IHACal . > /dev/null 2>&1
+  - git clone https://${GIT_TOKEN}@github.com/KalleDK/IHACal . > /dev/null 2>&1
 
 script:
   - cd ${TRAVIS_BUILD_DIR}/html
@@ -33,6 +33,4 @@ after_success:
   - cat Readme.md
   - git add -f .
   - git commit -m "Travis CI [ci skip]"
-  - git remote set-url origin https://${GH_TOKEN}@github.com/KalleDK/IHACal
-  - git remote -v
   - git push -fq origin  master
