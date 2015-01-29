@@ -8,3 +8,5 @@ do
 	curl -T --user $2:$3 calendars/$line.ics http://icalx.com/public/KalleDK/ > /dev/null 2>&1
 	echo "$line | [![ICS](https://img.shields.io/badge/ICS-build-green.svg)](http://icalx.com/public/KalleDK/$line.ics) | [![HTML](https://img.shields.io/badge/HTML-build-green.svg)](http://icalx.com/public/KalleDK/$line)" >> Readme.md
 done < $1
+echo "" >> Readme.md
+echo "/Kalle DK" >> Readme.md
