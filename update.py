@@ -13,7 +13,6 @@ import re
 last_week = 52
 year = 2015
 course = sys.argv[1]
-print course
 url = "http://ase-timeplaner.au.dk:8080/Rapporterer/Individuel;Studieprogrammer;id;{}?&template=SWS_PRO_IND&weeks={}&days=1-5&periods=1-34"
 
 cal = Calendar()
