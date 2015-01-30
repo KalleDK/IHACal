@@ -22,5 +22,8 @@ FORRETNING | [![ICS](https://img.shields.io/badge/ICS-build-green.svg)](http://i
 KE1 | [![ICS](https://img.shields.io/badge/ICS-build-green.svg)](http://icalx.com/public/KalleDK/KE1.ics) | [![HTML](https://img.shields.io/badge/HTML-build-green.svg)](http://www.icalx.com/html/KalleDK/week.php?cal=KE1)
 KE2 | [![ICS](https://img.shields.io/badge/ICS-build-green.svg)](http://icalx.com/public/KalleDK/KE2.ics) | [![HTML](https://img.shields.io/badge/HTML-build-green.svg)](http://www.icalx.com/html/KalleDK/week.php?cal=KE2)
 KE4 | [![ICS](https://img.shields.io/badge/ICS-build-green.svg)](http://icalx.com/public/KalleDK/KE4.ics) | [![HTML](https://img.shields.io/badge/HTML-build-green.svg)](http://www.icalx.com/html/KalleDK/week.php?cal=KE4)
+BD1 | [![ICS](https://img.shields.io/badge/ICS-build-green.svg)](http://icalx.com/public/KalleDK/BD1.ics) | [![HTML](https://img.shields.io/badge/HTML-build-green.svg)](http://www.icalx.com/html/KalleDK/week.php?cal=BD1)
+BD2 | [![ICS](https://img.shields.io/badge/ICS-build-green.svg)](http://icalx.com/public/KalleDK/BD2.ics) | [![HTML](https://img.shields.io/badge/HTML-build-green.svg)](http://www.icalx.com/html/KalleDK/week.php?cal=BD2)
+BD3 | [![ICS](https://img.shields.io/badge/ICS-build-green.svg)](http://icalx.com/public/KalleDK/BD3.ics) | [![HTML](https://img.shields.io/badge/HTML-build-green.svg)](http://www.icalx.com/html/KalleDK/week.php?cal=BD3)
 
 Kalle DK
