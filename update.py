@@ -10,7 +10,7 @@ import pytz
 import urllib
 import re
 
-last_week = 52
+last_week = 25
 year = 2015
 course = sys.argv[1]
 url = "http://ase-timeplaner.au.dk:8080/Rapporterer/Individuel;Studieprogrammer;id;{}?&template=SWS_PRO_IND&weeks={}&days=1-5&periods=1-34"
