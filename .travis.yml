@@ -27,9 +27,9 @@ install:
 script:
   - cd ${TRAVIS_BUILD_DIR}
   - ./fetch_courses.py
-  - '[ "${TRAVIS_PULL_REQUEST}" != "false" ] && ./update.py --single'
-  - '[ "${TRAVIS_PULL_REQUEST}" = "false" ] && ./update.py'
-  - '[ "${TRAVIS_PULL_REQUEST}" = "false" ] && ./update.sh $ICAL_USER $ICAL_PASS || false'
+  - '[ "${TRAVIS_PULL_REQUEST}" != "false" ] && ./update.py --single || true'
+  - '[ "${TRAVIS_PULL_REQUEST}" = "false" ] && ./update.py || true'
+  - '[ "${TRAVIS_PULL_REQUEST}" = "false" ] && ./update.sh $ICAL_USER $ICAL_PASS || true'
 
 after_success:
   - cd ${TRAVIS_BUILD_DIR}/data
