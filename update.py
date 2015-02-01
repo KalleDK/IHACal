@@ -12,7 +12,7 @@ year = 2015
 first_week = 1
 last_week = 25
 url = "http://ase-timeplaner.au.dk:8080/Rapporterer/Individuel;Studieprogrammer;id;{}?&template=SWS_PRO_IND&weeks={}&days=1-5&periods=1-34"
-readme = 'README.md'
+readme = 'data/README.md'
 
 parser = argparse.ArgumentParser()
 parser.add_argument ("--single",	action="store_true",      help="Only first course")
@@ -81,7 +81,7 @@ def parse_week(cal, f, year, week):
 def save_cal(cal, course):
 	print("\nSaving {}.ics\n".format(course))
 	file_name = re.sub('[^0-9a-zA-Z]+', '_', course)
-	f = open('calendars/{}.ics'.format(file_name),'wb')
+	f = open('data/{}.ics'.format(file_name),'wb')
 	f.write(cal.to_ical())
 	f.close()
 
