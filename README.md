@@ -1,4 +1,4 @@
-HA Calendars
+# IHA Calendars
 [![Build Status](https://travis-ci.org/KalleDK/IHACal.svg?branch=master)](https://travis-ci.org/KalleDK/IHACal)
 
 Course | Feed | Html
