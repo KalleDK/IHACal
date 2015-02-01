@@ -1,24 +1,24 @@
 #!/usr/bin/env python
+
+from __future__ import print_function
+
+import os, sys, pytz, urllib, re, time, pickle, argparse
+
 from icalendar import Calendar, Event
-from datetime import datetime
-import time
 from time import mktime
 from datetime import datetime
-import os
-import sys
-import pytz
-import urllib
-import re
 
-last_week = 25
 year = 2015
-course = sys.argv[1]
+first_week = 1
+last_week = 25
 url = "http://ase-timeplaner.au.dk:8080/Rapporterer/Individuel;Studieprogrammer;id;{}?&template=SWS_PRO_IND&weeks={}&days=1-5&periods=1-34"
+readme = 'data/README.md'
 
-cal = Calendar()
-cal.add('version','2.0')
-cal.add('X-WR-CALNAME', 'IHACal')
-cal.add('X-WR-CALDESC', 'Kalender for IHA')
+parser = argparse.ArgumentParser()
+parser.add_argument ("--single",	action="store_true",      help="Only first course")
+ns = parser.parse_args()
+
+courses = 0
 
 def create_time(year, week, weekday, hour, minute):
 	if (weekday == 7):
@@ -27,15 +27,9 @@ def create_time(year, week, weekday, hour, minute):
 	time_str = "{} {} {} {} {}".format(year, week, weekday, hour, minute)
 	return datetime.fromtimestamp(mktime(time.strptime(time_str, '%Y %W %w %H %M'))).replace(tzinfo=pytz.timezone("Europe/Copenhagen"))
 
-print '{}'.format(course)
-for week in range(1, last_week+1):
-	print '{}'.format(week),
+def parse_week(cal, f, year, week):
 	weekday = 0
 	event_state = 0
-	try: 
-		f = urllib.urlopen(url.format(course, week))
-	except urllib.URLError, e:
-		quit()
 	for line in f:
 		if re.search("C0C0C0'>(.*)<", line):
 			weekday = weekday + 1
@@ -83,9 +77,57 @@ for week in range(1, last_week+1):
 			#print "End Event"
 			event_state = 0
 			cal.add_component(event)
+
+def save_cal(cal, course):
+	print("\nSaving {}.ics\n".format(course))
+	file_name = re.sub('[^0-9a-zA-Z]+', '_', course)
+	f = open('data/{}.ics'.format(file_name),'wb')
+	f.write(cal.to_ical())
 	f.close()
 
-print "Saving {}".format(course)
-f = open('calendars/{}.ics'.format(course),'wb')
-f.write(cal.to_ical())
-f.close()
+def create_readme():
+	f = open(readme, 'wb')
+	f.write("# IHA Calendars\n")
+	f.write("[![Build Status](https://travis-ci.org/KalleDK/IHACal.svg?branch=master)](https://travis-ci.org/KalleDK/IHACal)\n\n")
+	f.write("Course | Feed | Html\n")
+	f.write("-------|------|-----\n")
+	f.close()
+
+def append_readme(course, courses):
+	file_name = re.sub('[^0-9a-zA-Z]+', '_', course)
+	f = open(readme, 'a')
+	f.write("{} | [![ICS](https://img.shields.io/badge/ICS-build-green.svg)](http://icalx.com/public/KalleDK/{}.ics) | [![HTML](https://img.shields.io/badge/HTML-build-green.svg)](http://www.icalx.com/html/KalleDK/week.php?cal={})\n".format(courses[course], file_name, file_name))
+	f.close()
+	
+def main():
+	courses = pickle.load( open( "courses.pkl", "rb" ) )
+	create_readme()
+	for course in courses:
+		cal = Calendar()
+		cal.add('version','2.0')
+		cal.add('X-WR-CALNAME', courses[course])
+		cal.add('X-WR-CALDESC', 'Calendar for {} at IHA'.format(courses[course]))
+		print('Fetching {}\'s weeks'.format(courses[course]))
+
+		for week in range(first_week, last_week+1):
+			if (week - first_week) % 10 == 0:
+				print('  ', end='')
+			print("{:02d} ".format(week), end='')
+			if (week - first_week + 1) % 10 == 0:
+				print('')
+			sys.stdout.flush()
+			try: 
+				f = urllib.urlopen(url.format(course, week))
+			except urllib.URLError, e:
+				quit()
+	
+			parse_week(cal, f, year, week)
+	
+			f.close()
+	
+		append_readme(course, courses)
+		save_cal(cal, course)
+		if ns.single:
+			sys.exit(0)
+
+main()
