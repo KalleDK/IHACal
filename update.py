@@ -16,6 +16,7 @@ readme = 'data/README.md'
 
 parser = argparse.ArgumentParser()
 parser.add_argument ("--single",	action="store_true",      help="Only first course")
+parser.add_argument ("--readme",	action="store_true",      help="Only first course")
 ns = parser.parse_args()
 
 courses = 0
@@ -98,11 +99,17 @@ def append_readme(course, courses):
 	f = open(readme, 'a')
 	f.write("{} | [![ICS](https://img.shields.io/badge/ICS-build-green.svg)](http://icalx.com/public/KalleDK/{}.ics) | [![HTML](https://img.shields.io/badge/HTML-build-green.svg)](http://www.icalx.com/html/KalleDK/week.php?cal={})\n".format(courses[course], file_name, file_name))
 	f.close()
+
+def make_readme():
+	courses = pickle.load( open( "courses.pkl", "rb" ) )
+	create_readme()
+	for course in sorted(courses):
+		append_readme(course, courses)
+		
 	
 def main():
 	courses = pickle.load( open( "courses.pkl", "rb" ) )
-	create_readme()
-	for course in courses:
+	for course in sorted(courses):
 		cal = Calendar()
 		cal.add('version','2.0')
 		cal.add('X-WR-CALNAME', courses[course])
@@ -125,9 +132,12 @@ def main():
 	
 			f.close()
 	
-		append_readme(course, courses)
 		save_cal(cal, course)
 		if ns.single:
 			sys.exit(0)
 
-main()
+if ns.readme:
+	make_readme()
+else:
+	main()
+	make_readme()
