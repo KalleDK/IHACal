@@ -97,7 +97,14 @@ def create_readme():
 def append_readme(course, courses):
 	file_name = re.sub('[^0-9a-zA-Z]+', '_', course)
 	f = open(readme, 'a')
-	f.write("{} | [![ICS](https://img.shields.io/badge/ICS-build-green.svg)](http://icalx.com/public/KalleDK/{}.ics) | [![HTML](https://img.shields.io/badge/HTML-build-green.svg)](http://www.icalx.com/html/KalleDK/week.php?cal={})\n".format(courses[course], file_name, file_name))
+	#f.write("{} | [![ICS](https://img.shields.io/badge/ICS-build-green.svg)](http://icalx.com/public/KalleDK/{}.ics) | [![HTML](https://img.shields.io/badge/HTML-build-green.svg)](http://www.icalx.com/html/KalleDK/week.php?cal={})\n".format(courses[course], file_name, file_name))
+	f.write("{} | [![ICS](https://img.shields.io/badge/ICS-build-green.svg)](http://icalx.com/public/KalleDK/{}.ics) | [![HTML](https://img.shields.io/badge/HTML-build-green.svg)](http://cdn.instantcal.com/cvir.html?id=cv_nav5&file=http%3A%2F%2Ficalx.com%2Fpublic%2FKalleDK%2F{}.ics&theme=RE&ccolor=%23ffffc0&dims=1&gtype=cv_daygrid&gcloseable=0&gnavigable=1&gperiod=day5&itype=cv_simpleevent)\n".format(courses[course], file_name, file_name))
+	f.close()
+
+def create_html(course):
+	file_name = re.sub('[^0-9a-zA-Z]+', '_', course)
+	f = open("html/{}.htm".format(filename), 'wb')
+	f.write("<iframe id='cv_if5' src='http://cdn.instantcal.com/cvir.html?id=cv_nav5&file=http%3A%2F%2Ficalx.com%2Fpublic%2FKalleDK%2F{}.ics&theme=RE&ccolor=%23ffffc0&dims=1&gtype=cv_daygrid&gcloseable=0&gnavigable=1&gperiod=day5&itype=cv_simpleevent' allowTransparency=true scrolling='no' frameborder=0 height=600 width=800></iframe>".format(filename))
 	f.close()
 
 def make_readme():

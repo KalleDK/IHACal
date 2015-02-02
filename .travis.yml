@@ -22,7 +22,10 @@ install:
   - git config --global user.name "${GIT_USER}"
   - mkdir ${TRAVIS_BUILD_DIR}/data
   - cd ${TRAVIS_BUILD_DIR}/data
-  - git clone https://${GIT_TOKEN}@github.com/KalleDK/IHACal_Data . > /dev/null 2>&1
+  - git clone --quiet https://${GIT_TOKEN}@github.com/KalleDK/IHACal_Data . > /dev/null 2>&1
+  - mkdir ${TRAVIS_BUILD_DIR}/html
+  - cd ${TRAVIS_BUILD_DIR}/html
+  - git clone --quiet --branch=gh-pages https://${GH_TOKEN}@github.com/KalleDK/IHACal_Data . > /dev/null 2>&1
 
 script:
   - cd ${TRAVIS_BUILD_DIR}
@@ -33,6 +36,10 @@ script:
 
 after_success:
   - cd ${TRAVIS_BUILD_DIR}/data
+  - git add -f .
+  - git commit -m "Travis CI"
+  - git push -fq origin master
+  - cd ${TRAVIS_BUILD_DIR}/html
   - git add -f .
   - git commit -m "Travis CI"
   - git push -fq origin master
