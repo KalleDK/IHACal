@@ -13,6 +13,9 @@ first_week = 1
 last_week = 25
 url = "http://ase-timeplaner.au.dk:8080/Rapporterer/Individuel;Studieprogrammer;id;{}?&template=SWS_PRO_IND&weeks={}&days=1-5&periods=1-34"
 readme = 'data/README.md'
+f = open('timezone.txt', 'rb')
+timezone_crap = f.read()
+f.close()
 
 parser = argparse.ArgumentParser()
 parser.add_argument ("--single",	action="store_true",      help="Only first course")
@@ -83,7 +86,13 @@ def save_cal(cal, course):
 	print("\nSaving {}.ics\n".format(course))
 	file_name = re.sub('[^0-9a-zA-Z]+', '_', course)
 	f = open('data/{}.ics'.format(file_name),'wb')
-	f.write(cal.to_ical())
+	content = cal.to_ical().split("\r\n", 4)
+	f.write(content[0]+"\r\n")
+	f.write(content[1]+"\r\n")
+	f.write(content[2]+"\r\n")
+	f.write(content[3]+"\r\n")
+	f.write(timezone_crap)
+	f.write(content[4])
 	f.close()
 
 def create_readme():
@@ -100,11 +109,12 @@ def append_readme(course, courses):
 	#f.write("{} | [![ICS](https://img.shields.io/badge/ICS-build-green.svg)](http://icalx.com/public/KalleDK/{}.ics) | [![HTML](https://img.shields.io/badge/HTML-build-green.svg)](http://www.icalx.com/html/KalleDK/week.php?cal={})\n".format(courses[course], file_name, file_name))
 	f.write("{} | [![ICS](https://img.shields.io/badge/ICS-build-green.svg)](http://icalx.com/public/KalleDK/{}.ics) | [![HTML](https://img.shields.io/badge/HTML-build-green.svg)](http://cdn.instantcal.com/cvir.html?id=cv_nav5&file=http%3A%2F%2Ficalx.com%2Fpublic%2FKalleDK%2F{}.ics&theme=RE&ccolor=%23ffffc0&dims=1&gtype=cv_daygrid&gcloseable=0&gnavigable=1&gperiod=day5&itype=cv_simpleevent)\n".format(courses[course], file_name, file_name))
 	f.close()
+	create_html(course)
 
 def create_html(course):
 	file_name = re.sub('[^0-9a-zA-Z]+', '_', course)
-	f = open("html/{}.htm".format(filename), 'wb')
-	f.write("<iframe id='cv_if5' src='http://cdn.instantcal.com/cvir.html?id=cv_nav5&file=http%3A%2F%2Ficalx.com%2Fpublic%2FKalleDK%2F{}.ics&theme=RE&ccolor=%23ffffc0&dims=1&gtype=cv_daygrid&gcloseable=0&gnavigable=1&gperiod=day5&itype=cv_simpleevent' allowTransparency=true scrolling='no' frameborder=0 height=600 width=800></iframe>".format(filename))
+	f = open("html/{}.htm".format(file_name), 'wb')
+	f.write("<iframe id='cv_if5' src='http://cdn.instantcal.com/cvir.html?id=cv_nav5&file=http%3A%2F%2Ficalx.com%2Fpublic%2FKalleDK%2F{}.ics&theme=RE&ccolor=%23ffffc0&dims=1&gtype=cv_daygrid&gcloseable=0&gnavigable=1&gperiod=day5&itype=cv_simpleevent' allowTransparency=true scrolling='no' frameborder=0 height=600 width=800></iframe>".format(file_name))
 	f.close()
 
 def make_readme():
