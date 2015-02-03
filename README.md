@@ -1,6 +1,12 @@
 # IHA Calendars
 [![Build Status](https://travis-ci.org/KalleDK/IHACal.svg?branch=master)](https://travis-ci.org/KalleDK/IHACal)
 
+Google Calendar Guide https://support.google.com/calendar/answer/37100?hl=en
+
+IPhone Guide http://www.iphonefaq.org/archives/97922
+
+Outlook.com Guide http://support.doodle.com/customer/portal/articles/1143139-connect-outlook-com-via-ics-feed
+
 Course | Feed | Html
 -------|------|-----
 AK A15 | [![ICS](https://img.shields.io/badge/ICS-feed-green.svg)](http://icalx.com/public/KalleDK/AK_A15.ics) | [![HTML](https://img.shields.io/badge/HTML-view-green.svg)](http://kalledk.github.io/IHACal_Data/AK_A15.htm)
