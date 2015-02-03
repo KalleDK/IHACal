@@ -20,8 +20,10 @@ install:
   - pip install pytz
   - git config --global user.email "${GIT_MAIL}"
   - git config --global user.name "${GIT_USER}"
-  - mkdir ${TRAVIS_BUILD_DIR}/data
-  - cd ${TRAVIS_BUILD_DIR}/data
+  - mkdir ${TRAVIS_BUILD_DIR}/pkl
+  - mkdir ${TRAVIS_BUILD_DIR}/events
+  - mkdir ${TRAVIS_BUILD_DIR}/courses
+  - cd ${TRAVIS_BUILD_DIR}/courses
   - git clone --quiet https://${GIT_TOKEN}@github.com/KalleDK/IHACal_Data . > /dev/null 2>&1
   - mkdir ${TRAVIS_BUILD_DIR}/html
   - cd ${TRAVIS_BUILD_DIR}/html
@@ -29,17 +31,13 @@ install:
 
 script:
   - cd ${TRAVIS_BUILD_DIR}
-  - ./fetch_courses.py
-  - '[ "${TRAVIS_PULL_REQUEST}" != "false" ] && ./update.py --single || true'
-  - '[ "${TRAVIS_PULL_REQUEST}" = "false" ] && ./update.py || true'
-  - '[ "${TRAVIS_PULL_REQUEST}" = "false" ] && ./update.sh $ICAL_USER $ICAL_PASS || true'
+  - ./update.sh $ICAL_USER $ICAL_PASS
 
 after_success:
-  - cd ${TRAVIS_BUILD_DIR}/data
+  - cd ${TRAVIS_BUILD_DIR}/courses
   - git add -f .
   - git commit -m "Travis CI"
   - git push -fq origin master
   - cd ${TRAVIS_BUILD_DIR}/html
   - git add -f .
   - git commit -m "Travis CI"
-  - git push -fq origin master

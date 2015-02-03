@@ -1,5 +1,12 @@
 #!/usr/bin/env bash
-cd data
+if [ "x${TRAVIS_PULL_REQUEST}" != "xfalse" ]
+then
+	./IHAcal.py --fetch --update --single IKT3
+else
+	./IHAcal.py --fetch --update --all
+fi
+
+cd courses
 for f in *.ics
 do
 	echo "Processing $f file.."
