@@ -5,7 +5,7 @@ Google Calendar Guide https://support.google.com/calendar/answer/37100?hl=en
 
 IPhone Guide http://www.iphonefaq.org/archives/97922
 
-Outlook.com Guide http://support.doodle.com/customer/portal/articles/1143139-connect-outlook-com-via-ics-feed
+Outlook.com Guide http://windows.microsoft.com/en-us/windows/outlook/calendar-import-vs-subscribe
 
 Course | Feed | Html
 -------|------|-----
