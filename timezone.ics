@@ -1,6 +1,3 @@
-X-PUBLISHED-TTL:PT4H
-CALSCALE:GREGORIAN
-METHOD:PUBLISH
 BEGIN:VTIMEZONE
 TZID:Europe/Copenhagen
 TZURL:http://tzurl.org/zoneinfo/Europe/Copenhagen
