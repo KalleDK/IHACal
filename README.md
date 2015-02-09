@@ -7,6 +7,7 @@ IPhone Guide http://www.iphonefaq.org/archives/97922
 
 Outlook.com Guide http://windows.microsoft.com/en-us/windows/outlook/calendar-import-vs-subscribe
 
+
 Course | Feed | Html
 -------|------|-----
 AK A15 | [![ICS](https://img.shields.io/badge/ICS-feed-green.svg)](http://icalx.com/public/KalleDK/AK_A15.ics) | [![HTML](https://img.shields.io/badge/HTML-view-green.svg)](http://kalledk.github.io/IHACal_Data/AK_A15.htm)
