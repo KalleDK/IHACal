@@ -1,0 +1,20 @@
+ihacal:
+   build: .
+
+   environment:
+     - USERNAME
+     - PASSWORD
+
+ihabah:
+   build: .
+
+   volumes:
+     - .:/usr/src/app:Z
+     - /usr/bin/vi:/usr/bin/vi:Z
+
+   entrypoint:
+     - /bin/bash
+
+   environment:
+     - USERNAME
+     - PASSWORD
