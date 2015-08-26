@@ -146,9 +146,25 @@ class Timeplaner:
 tp = Timeplaner()
 
 courses = tp.getCourseList()
-#courses = [('BD3','BD3')]
+courses = [('BD3','BD3'),('IKT4','IKT4')]
+
+def makeBadge(name, url, status):
+	badge = 'https://img.shields.io/badge/{}-view-{}.svg'.format(name, status)
+	return '[![{}]({})]({})'.format(name,badge,url)
 
 for course in courses:
 	print("Course: " + course[0])
 	ics = tp.getCourseCalendar(course,datetime.now(tz), day_count).to_ical()
 	r = requests.put(ics_url + "/" + course[0] + ".ics", auth=(username, password), data=ics)
+
+with open('README.md','wb') as f:
+	f.write(bytes("# IHA Calendars\n",'UTF-8'))
+	f.write(bytes("\n\n",'UTF-8'))
+	f.write(bytes("Course | Feed | Html\n",'UTF-8'))
+	f.write(bytes("-------|------|-----\n",'UTF-8'))
+	for course in courses:
+		course_name = course[0]
+		ics_badge = makeBadge('ICS','http://icalx.com/public/KalleDK/{}.ics'.format(course_name), 'green')
+		html_badge = makeBadge('HTML','http://kalledk.github.io/IHACal_Data/{}.htm'.format(course_name), 'green')
+		f.write(bytes("{} | {} | {}\n".format(course_name, ics_badge, html_badge),'UTF-8'))
+		

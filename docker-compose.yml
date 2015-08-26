@@ -9,8 +9,9 @@ ihabah:
    build: .
 
    volumes:
-     - .:/usr/src/app:Z
      - /usr/bin/vi:/usr/bin/vi:Z
+     - ./app:/usr/src/app:Z
+     - ./README.md:/usr/src/app/README.md:Z
 
    entrypoint:
      - /bin/bash
