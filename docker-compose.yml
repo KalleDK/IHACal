@@ -4,6 +4,7 @@ ihacal:
    environment:
      - USERNAME
      - PASSWORD
+     - DAYCOUNT=140
 
    volumes:
      - ./README.md:/usr/src/app/README.md:Z
@@ -22,3 +23,4 @@ ihabah:
    environment:
      - USERNAME
      - PASSWORD
+     - DAYCOUNT=140

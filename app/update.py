@@ -10,7 +10,7 @@ import re
 
 
 tz = pytz.timezone("Europe/Copenhagen")
-day_count = 30
+day_count = int(os.getenv('DAYCOUNT','1'))
 username = os.environ['USERNAME']
 password = os.environ['PASSWORD']
 
@@ -79,6 +79,8 @@ class Timeplaner:
 	def getWeek(self, course, date):
 		# Get week number from date
 		( _, week, _ ) = datetime.isocalendar(date)
+		if week > 52:
+			week -= 52
 
 		# Make weekid for cache identification
 		weekid = course + str(week)
