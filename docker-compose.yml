@@ -5,12 +5,15 @@ ihacal:
      - USERNAME
      - PASSWORD
 
+   volumes:
+     - ./README.md:/usr/src/app/README.md:Z
+
 ihabah:
    build: .
 
    volumes:
      - /usr/bin/vi:/usr/bin/vi:Z
-     - ./app:/usr/src/app:Z
+#     - ./app:/usr/src/app:Z
      - ./README.md:/usr/src/app/README.md:Z
 
    entrypoint:

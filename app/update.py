@@ -10,7 +10,7 @@ import re
 
 
 tz = pytz.timezone("Europe/Copenhagen")
-day_count = 7
+day_count = 30
 username = os.environ['USERNAME']
 password = os.environ['PASSWORD']
 
@@ -136,7 +136,10 @@ class Timeplaner:
 		cal.add('X-WR-CALDESC', 'Calendar for {} at IHA'.format(course[0]))
 		
 		for date in (start_date + timedelta(n) for n in range(day_count)):
+			print('.',end='')
+			sys.stdout.flush()
 			events += self.getEventsFromDate(course[1], date)
+		print("\n")
 		
 		for event in events:
 			cal.add_component(event.toICal())
@@ -146,17 +149,18 @@ class Timeplaner:
 tp = Timeplaner()
 
 courses = tp.getCourseList()
-courses = [('BD3','BD3'),('IKT4','IKT4')]
 
 def makeBadge(name, url, status):
 	badge = 'https://img.shields.io/badge/{}-view-{}.svg'.format(name, status)
 	return '[![{}]({})]({})'.format(name,badge,url)
 
 for course in courses:
-	print("Course: " + course[0])
+	print("Course: " + course[0] + "\n")
 	ics = tp.getCourseCalendar(course,datetime.now(tz), day_count).to_ical()
 	r = requests.put(ics_url + "/" + course[0] + ".ics", auth=(username, password), data=ics)
 
+courses = tp.getCourseList()
+	
 with open('README.md','wb') as f:
 	f.write(bytes("# IHA Calendars\n",'UTF-8'))
 	f.write(bytes("\n\n",'UTF-8'))
@@ -165,6 +169,6 @@ with open('README.md','wb') as f:
 	for course in courses:
 		course_name = course[0]
 		ics_badge = makeBadge('ICS','http://icalx.com/public/KalleDK/{}.ics'.format(course_name), 'green')
-		html_badge = makeBadge('HTML','http://kalledk.github.io/IHACal_Data/{}.htm'.format(course_name), 'green')
+		html_badge = makeBadge('HTML','http://cdn.instantcal.com/cvj.html?id=cv_nav5&file=http%3A%2F%2Ficalx.com%2Fpublic%2FKalleDK%2F{}.ics&theme=RE&ccolor=%23ffffc0&dims=1&gtype=cv_daygrid&gcloseable=0&gnavigable=1&gperiod=day5&itype=cv_simpleevent&width=800'.format(course_name), 'green')
 		f.write(bytes("{} | {} | {}\n".format(course_name, ics_badge, html_badge),'UTF-8'))
 		
