@@ -8,7 +8,6 @@ from icalendar import Calendar, Event as ICALEvent
 import pytz
 import re
 
-
 tz = pytz.timezone("Europe/Copenhagen")
 day_count = int(os.getenv('DAYCOUNT','1'))
 username = os.environ['USERNAME']
@@ -16,7 +15,9 @@ password = os.environ['PASSWORD']
 
 ics_url = 'http://icalx.com/public/KalleDK'
 
-
+def makeBadge(name, url, status):
+	badge = 'https://img.shields.io/badge/{}-view-{}.svg'.format(name, status)
+	return '[![{}]({})]({})'.format(name,badge,url)
 
 class Event:
 	def __init__(self, xml_event, date):
@@ -56,7 +57,7 @@ class Timeplaner:
 
 	def __init__(self):
 		self.course_list_url = "http://ase-timeplaner.au.dk/Scientia/SWS/semesterskema.html"
-		self.week_template_url = "http://ase-timeplaner.au.dk:8080/Rapporterer/Individuel;Studieprogrammer;id;{}?&template=SWS_PRO_IND&weeks={}&days=1-5&periods=1-34"
+		self.week_template_url = "http://ase-timeplaner.au.dk:8080/Rapporterer/Individuel;Studieprogrammer;id;{}?&template=SWS_PRO_IND&weeks={}&days=1-7&periods=1-34"
 		self.session = requests.Session()
 		self.course_list = self.getCourseList()
 		self.cache = {}
@@ -99,8 +100,17 @@ class Timeplaner:
 		# Get day of week
 		( _, _, day ) = datetime.isocalendar(date)
 		
+		# How many rows does the day span
+		row_span = week.xpath('tr/td[1]//@rowspan')
+		row_span = [int(x) for x in row_span]
+		start_row = 2 + sum(row_span[:day-1])
+		row_count = row_span[day-1]
+		
+		xml_events = []
 		# Get the events from a specific day
-		xml_events = week.xpath('tr[' + str(day + 1) + ']/td[table]')
+		for row in range(0,row_count):
+			# Get the events from a specific row
+			xml_events += week.xpath('tr[' + str(start_row + row) + ']/td[table]')
 
 		# Reverse so we can use pop and append from the end
 		xml_events.reverse()
@@ -152,10 +162,6 @@ tp = Timeplaner()
 
 courses = tp.getCourseList()
 
-def makeBadge(name, url, status):
-	badge = 'https://img.shields.io/badge/{}-view-{}.svg'.format(name, status)
-	return '[![{}]({})]({})'.format(name,badge,url)
-
 for course in courses:
 	print("Course: " + course[0] + "\n")
 	ics = tp.getCourseCalendar(course,datetime.now(tz), day_count).to_ical()
@@ -170,7 +176,7 @@ with open('README.md','wb') as f:
 	f.write(bytes("-------|------|-----\n",'UTF-8'))
 	for course in courses:
 		course_name = course[0]
-		ics_badge = makeBadge('ICS','http://icalx.com/public/KalleDK/{}.ics'.format(course_name), 'green')
-		html_badge = makeBadge('HTML','http://cdn.instantcal.com/cvj.html?id=cv_nav5&file=http%3A%2F%2Ficalx.com%2Fpublic%2FKalleDK%2F{}.ics&theme=RE&ccolor=%23ffffc0&dims=1&gtype=cv_daygrid&gcloseable=0&gnavigable=1&gperiod=day5&itype=cv_simpleevent&width=800'.format(course_name), 'green')
+		ics_badge   = makeBadge('ICS','http://icalx.com/public/KalleDK/{}.ics'.format(course_name), 'green')
+		html_badge  = makeBadge('HTML','http://cdn.instantcal.com/cvj.html?id=cv_nav5&file=http%3A%2F%2Ficalx.com%2Fpublic%2FKalleDK%2F{}.ics&theme=RE&ccolor=%23ffffc0&dims=1&gtype=cv_daygrid&gcloseable=0&gnavigable=1&gperiod=day5&itype=cv_simpleevent&width=800'.format(course_name), 'green')
 		f.write(bytes("{} | {} | {}\n".format(course_name, ics_badge, html_badge),'UTF-8'))
 		
